@@ -1,0 +1,36 @@
+# Made in Blockbench 4.9.4
+newmtl m_b7e8201c-24e1-abe8-7cde-426f76302c48
+map_Kd hull.png
+newmtl m_11054e9e-a0b1-18f6-4fd8-f0054f61d6db
+map_Kd pik.png
+newmtl m_df79c8dc-5a35-0d0b-30ee-80d3cfca6e91
+map_Kd mastbase.png
+newmtl m_4efa939c-6f64-f73f-843d-d2203dd0ea2a
+map_Kd mastbase2.png
+newmtl m_edc41540-f765-6cd0-a66c-22714eae6cba
+map_Kd Mast.png
+newmtl m_4a126f78-b96e-1e71-d2b2-96afc04696b3
+map_Kd flagpole.png
+newmtl m_5f2ba82e-ab04-b2d5-41ea-d10de63543e4
+map_Kd flag.png
+newmtl m_5b91664a-b9f0-0755-2930-3f6e9cf6a3f6
+map_Kd Sail.png
+newmtl m_d5316276-5323-d1d0-0be8-7d8b0a7daae7
+map_Kd hook.png
+newmtl m_feed5da7-e89b-50d3-ae42-1c2ac33b52ae
+map_Kd Hut.png
+newmtl m_550e4820-64fc-e6ee-40c6-425df742f5ab
+map_Kd Tak.png
+newmtl m_44de43a5-4865-b288-7519-16ec8c672785
+map_Kd craneBase.png
+newmtl m_88be0469-0500-3107-7293-38ea1bf6dbc2
+map_Kd large winch.png
+newmtl m_4cb21e51-17f1-4884-720b-cb5923b41fe9
+map_Kd WinchArm.png
+newmtl m_5018b059-fbea-3803-4a6b-4ad76bf9336a
+map_Kd small winch.png
+newmtl m_fe0a90b0-8359-f5f9-b473-593e99a52421
+map_Kd boom connector.png
+newmtl m_fa417fd7-1257-f207-8bc5-f9d0d0e0d54d
+map_Kd boom.png
+newmtl none
