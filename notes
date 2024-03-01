@@ -1,0 +1,39 @@
+    // Set up the buffers
+    var vertices = new Float32Array([
+        -0.5, -0.5, 0,
+        0.5, -0.5, 0,
+        0.5, 0.5, 0,
+        -0.5, 0.5, 0,
+    ]);
+
+    var vertexBuffer = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
+    gl.bufferData(gl.ARRAY_BUFFER, vertices, gl.STATIC_DRAW);
+
+    shaderProgram.setAttribArray('aVertexPosition');
+
+
+
+//////////////////////////////////////////////////////////
+
+
+    var vertices = new Float32Array([
+        // Vertex positions
+        -0.5, -0.5, 0,
+        0.5, -0.5, 0,
+        0.5, 0.5, 0,
+        -0.5, 0.5, 0,
+    
+        // Vertex normals
+        0, 0, 1,  // Normal for the first vertex
+        0, 0, 1,  // Normal for the second vertex
+        0, 0, 1,  // Normal for the third vertex
+        0, 0, 1,  // Normal for the fourth vertex
+    
+        // Texture coordinates
+        0, 0,
+        1, 0,
+        1, 1,
+        0, 1,
+    ]);
+    

@@ -4,9 +4,14 @@
 window.onload = function () {
 
 
+    // Model testing
+    let model = new Model(modelString);
+    console.log(model);
+
+
     // Get the WebGL context
     var canvas = document.getElementById('drawing-board');
-    var gl = canvas.getContext('webgl');
+    var gl = canvas.getContext('webgl2');
 
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
@@ -27,26 +32,53 @@ window.onload = function () {
         return;
     }
 
+
     let shaderProgram = new Shader(gl,vsSource,fsSource);
     shaderProgram.use();
 
+    var vao = gl.createVertexArray();
+    gl.bindVertexArray(vao);
 
-
-    // Set up the buffers
     var vertices = new Float32Array([
-        -0.5, -0.5, 0,
-        0.5, -0.5, 0,
-        0.5, 0.5, 0,
-        -0.5, 0.5, 0,
-    ]);
+    -0.5, -0.5, 0, 1,   // Position
+     0, 0, 1,           // Normal
+     0, 0,              // TexCoord
 
-    var vertexBuffer = gl.createBuffer();
-    gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
-    gl.bufferData(gl.ARRAY_BUFFER, vertices, gl.STATIC_DRAW);
+     0.5, -0.5, 0, 1,    // Position
+     0, 0, 1,           // Normal
+     1, 0,              // TexCoord
 
-    shaderProgram.setAttribArray('aVertexPosition');
+     0.5, 0.5, 0, 1,     // Position
+     0, 0, 1,           // Normal
+     1, 1,              // TexCoord
 
-    
+    -0.5, 0.5, 0, 1,    // Position
+     0, 0, 1,           // Normal
+     0, 1               // TexCoord
+]);
+
+var vertexBuffer = gl.createBuffer();
+gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
+gl.bufferData(gl.ARRAY_BUFFER, vertices, gl.STATIC_DRAW);
+
+var stride = 9 * Float32Array.BYTES_PER_ELEMENT;
+
+shaderProgram.setAttribArray('aPosition');
+attributeLocationPosition = gl.getAttribLocation(shaderProgram.shaderProgram, 'aPosition');
+gl.vertexAttribPointer(attributeLocationPosition, 4, gl.FLOAT, false, stride, 0);
+gl.enableVertexAttribArray(attributeLocationPosition);
+
+shaderProgram.setAttribArray('aNormal');
+attributeLocationNormal = gl.getAttribLocation(shaderProgram.shaderProgram, 'aNormal');
+gl.vertexAttribPointer(attributeLocationNormal, 3, gl.FLOAT, false, stride, 4 * Float32Array.BYTES_PER_ELEMENT);
+gl.enableVertexAttribArray(attributeLocationNormal);
+
+shaderProgram.setAttribArray('aTexCoord');
+attributeLocationTexCoord = gl.getAttribLocation(shaderProgram.shaderProgram, 'aTexCoord');
+gl.vertexAttribPointer(attributeLocationTexCoord, 2, gl.FLOAT, false, stride, 7 * Float32Array.BYTES_PER_ELEMENT);
+gl.enableVertexAttribArray(attributeLocationTexCoord);
+
+
     let cameraPosition = [0, 0, 2];
     let cameraOrientation = [0, 0, -1];
     let cameraTarget = [0, 0, 0];
