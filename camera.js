@@ -72,21 +72,22 @@ class Camera {
         this.position[0] = this.radius * Math.sin(newAngleY) * Math.cos(newAngleX);
         this.position[1] = this.radius * Math.cos(newAngleY);
         this.position[2] = this.radius * Math.sin(newAngleY) * Math.sin(newAngleX);
-        console.log(this.position);
-        console.log(this.radius);
     }
 
-
+R
     initializeEventListeners(canvas){
         var firstclick = true;
         var mouseInitialPosition ;
         var prevPos;
+        let drawingBoard = document.getElementById('drawing-board');
+        drawingBoard.style.cursor = 'grab';
         // var button; // Use this to check if we click the scroll button. ===0 means leftclick, ===1 means scroll button
         canvas.addEventListener('mousedown', (event) => {
             if(firstclick){
                 firstclick = false;
                 mouseInitialPosition = {x:event.clientX,y:event.clientY};
                 prevPos = mouseInitialPosition;
+                drawingBoard.style.cursor = 'grabbing';
                 //button = event.button;
             }  
             
@@ -104,6 +105,7 @@ class Camera {
         ;})
         canvas.addEventListener('mouseup', (event) => {
             firstclick = true;
+            drawingBoard.style.cursor = 'grab';
         });
         document.addEventListener('wheel', (event) => {
             //scrollDifference = currentScroll - window.scrollY;

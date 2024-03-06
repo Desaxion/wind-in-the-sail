@@ -19,6 +19,7 @@ f 1/1/1 2/2/2 3/3/3
 `*/
 
 
+
 const modelString = `# Made in Blockbench 4.9.4
 mtllib sailboat.mtl
 
