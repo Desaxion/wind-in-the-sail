@@ -20,7 +20,7 @@ class Camera {
 
         let cameraMatrix = mat4.create();
         // Setting the cameras view matrix
-        let lookTarget = vec3.create();
+        let lookTarget = [0,2,0]//vec3.create();
         if(this.firstPerson){
             vec3.add(lookTarget,this.position,this.orientation);
         } else {
@@ -72,7 +72,8 @@ class Camera {
         this.position[0] = this.radius * Math.sin(newAngleY) * Math.cos(newAngleX);
         this.position[1] = this.radius * Math.cos(newAngleY);
         this.position[2] = this.radius * Math.sin(newAngleY) * Math.sin(newAngleX);
-
+        console.log(this.position);
+        console.log(this.radius);
     }
 
 

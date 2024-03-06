@@ -1,24 +1,18 @@
-
-
-
 window.onload = function () {
-
-
-    // Model testing
-    let model = new Model(modelString);
-    console.log(model);
-
-
     // Get the WebGL context
     var canvas = document.getElementById('drawing-board');
     var gl = canvas.getContext('webgl2');
+
+        // Model testing
+        let model = new Model(modelString,gl);
+        //console.log(model);
 
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
 
     const toDegrees = 180 / Math.PI;
     const near = 0.1;
-    const far = 10;
+    const far = 100;
     const fov = 70;
 
     // Add a resize eventlistener
@@ -36,50 +30,9 @@ window.onload = function () {
     let shaderProgram = new Shader(gl,vsSource,fsSource);
     shaderProgram.use();
 
-    var vao = gl.createVertexArray();
-    gl.bindVertexArray(vao);
+    model.generateModelBuffers(shaderProgram)
 
-    var vertices = new Float32Array([
-    -0.5, -0.5, 0, 1,   // Position
-     0, 0, 1,           // Normal
-     0, 0,              // TexCoord
-
-     0.5, -0.5, 0, 1,    // Position
-     0, 0, 1,           // Normal
-     1, 0,              // TexCoord
-
-     0.5, 0.5, 0, 1,     // Position
-     0, 0, 1,           // Normal
-     1, 1,              // TexCoord
-
-    -0.5, 0.5, 0, 1,    // Position
-     0, 0, 1,           // Normal
-     0, 1               // TexCoord
-]);
-
-var vertexBuffer = gl.createBuffer();
-gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
-gl.bufferData(gl.ARRAY_BUFFER, vertices, gl.STATIC_DRAW);
-
-var stride = 9 * Float32Array.BYTES_PER_ELEMENT;
-
-shaderProgram.setAttribArray('aPosition');
-attributeLocationPosition = gl.getAttribLocation(shaderProgram.shaderProgram, 'aPosition');
-gl.vertexAttribPointer(attributeLocationPosition, 4, gl.FLOAT, false, stride, 0);
-gl.enableVertexAttribArray(attributeLocationPosition);
-
-shaderProgram.setAttribArray('aNormal');
-attributeLocationNormal = gl.getAttribLocation(shaderProgram.shaderProgram, 'aNormal');
-gl.vertexAttribPointer(attributeLocationNormal, 3, gl.FLOAT, false, stride, 4 * Float32Array.BYTES_PER_ELEMENT);
-gl.enableVertexAttribArray(attributeLocationNormal);
-
-shaderProgram.setAttribArray('aTexCoord');
-attributeLocationTexCoord = gl.getAttribLocation(shaderProgram.shaderProgram, 'aTexCoord');
-gl.vertexAttribPointer(attributeLocationTexCoord, 2, gl.FLOAT, false, stride, 7 * Float32Array.BYTES_PER_ELEMENT);
-gl.enableVertexAttribArray(attributeLocationTexCoord);
-
-
-    let cameraPosition = [0, 0, 2];
+    let cameraPosition = [7.549899324160266, 4.284099232217267, -4.21521220860347]//[0, 0, 2];
     let cameraOrientation = [0, 0, -1];
     let cameraTarget = [0, 0, 0];
     const firstPersonMode = false;
@@ -87,8 +40,12 @@ gl.enableVertexAttribArray(attributeLocationTexCoord);
 
     camera.initializeEventListeners(canvas);
 
+    // Set camera position and suc
+
+    gl.enable(gl.DEPTH_TEST);
+
     // Set clear color and clear the canvas
-    gl.clearColor(0.0, 0.0, 0.0, 1.0);
+    gl.clearColor(0.0, 0.3, 0.3, 1.0);
     gl.clear(gl.COLOR_BUFFER_BIT);
 
     gl.viewport(0,0,canvas.width,canvas.height);
@@ -98,6 +55,8 @@ gl.enableVertexAttribArray(attributeLocationTexCoord);
        
         // MAIN RENDERING LOOP //
         function render() {
+            gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+
             // Set up matrices
 
             var time = performance.now() * 0.001; // Get time in seconds
@@ -114,8 +73,8 @@ gl.enableVertexAttribArray(attributeLocationTexCoord);
             gl.clear(gl.COLOR_BUFFER_BIT);
             shaderProgram.use();
 
-            // Draw the red box
-            gl.drawArrays(gl.TRIANGLE_FAN, 0, 4);
+            model.draw();
+            
     
             // Request the next animation frame
             requestAnimationFrame(render);
