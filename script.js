@@ -1,10 +1,12 @@
+
 window.onload = function () {
     // Get the WebGL context
     var canvas = document.getElementById('drawing-board');
     var gl = canvas.getContext('webgl2');
 
         // Model testing
-        let model = new Model(modelString,gl);
+        let sailboat = new Model(sailboatModel,sailboatMaterial,sailboatPath,gl);
+        let water = new Model(waterModel,waterMaterial,waterPath,gl);
         //console.log(model);
 
     canvas.width = window.innerWidth;
@@ -30,7 +32,8 @@ window.onload = function () {
     let shaderProgram = new Shader(gl,vsSource,fsSource);
     shaderProgram.use();
 
-    model.generateModelBuffers(shaderProgram)
+    sailboat.generateModelBuffers(shaderProgram)
+    water.generateModelBuffers(shaderProgram)
 
     let cameraPosition = [7.549899324160266, 4.284099232217267, -4.21521220860347]//[0, 0, 2];
     let cameraOrientation = [0, 0, -1];
@@ -45,7 +48,7 @@ window.onload = function () {
     gl.enable(gl.DEPTH_TEST);
 
     // Set clear color and clear the canvas
-    gl.clearColor(0.0, 0.3, 0.3, 1.0);
+    gl.clearColor(0.95, 0.75, 0.6, 1.0);
     gl.clear(gl.COLOR_BUFFER_BIT);
 
     gl.viewport(0,0,canvas.width,canvas.height);
@@ -67,15 +70,16 @@ window.onload = function () {
 
             vec3.set(sendingColor,Math.sin(index/50),Math.cos(index/50),0.5);
             
+            shaderProgram.setBool('normalVisualizer', normalToggler);
+
             shaderProgram.setVec3('color',sendingColor);
             window.onresize = onWindowResize;
             // Clear the canvas
             gl.clear(gl.COLOR_BUFFER_BIT);
             shaderProgram.use();
 
-            model.draw();
-            
-    
+            sailboat.draw(shaderProgram);
+            water.draw(shaderProgram);
             // Request the next animation frame
             requestAnimationFrame(render);
         }

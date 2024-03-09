@@ -42,6 +42,11 @@ class Shader {
         this.context.vertexAttribPointer(positionAttrib, 3, this.context.FLOAT, false, 0, 0);
         this.context.enableVertexAttribArray(positionAttrib);
     }
+    setBool(name,value){
+        let location = this.context.getUniformLocation(this.shaderProgram,name);
+        this.context.uniform1i(location,value ? 1 : 0);
+    }
+
     setInt(name,value){
         let location = this.context.getUniformLocation(this.shaderProgram,name);
         this.context.uniform1i(location,value);

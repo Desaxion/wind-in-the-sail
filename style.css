@@ -1,3 +1,10 @@
+html, body {
+    font-family: 'IBM Plex Mono';
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+  }
+
 body{
     position:relative;
 }
@@ -6,6 +13,43 @@ body{
     position: fixed;
     top:0;
     left:0;
+    z-index: 1;
     /*min-width: 100%;
     min-height: 100%;*/
 }
+
+/*                OUTLINE            */
+#toggle-div {
+    position:fixed;
+    top: 10px;
+    left: 10px;
+    display:flex;
+    flex-direction:row;
+    align-items: center;
+    z-index: 99;
+    font-weight:600;
+    color: red;
+}
+
+.outline-background {
+    position: relative;
+    border: 3px solid red;
+    height: 24px;
+    width: 54px;
+    border-radius: 20px;
+    transition: background 0.1 ease;
+    cursor: pointer;
+    margin: 10px;
+    margin-right: 20px;
+}
+  
+  .outline-toggle-slider {
+    width: 20px;
+    height: 20px;
+    margin: 2px;
+    background: red;
+    border-radius: 50%;
+    left: 0%;
+    position: absolute;
+    transition: left 0.1s ease;
+  }
