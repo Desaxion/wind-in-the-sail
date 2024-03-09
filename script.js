@@ -1,3 +1,4 @@
+
 window.onload = function () {
     // Get the WebGL context
     var canvas = document.getElementById('drawing-board');
@@ -69,6 +70,8 @@ window.onload = function () {
 
             vec3.set(sendingColor,Math.sin(index/50),Math.cos(index/50),0.5);
             
+            shaderProgram.setBool('normalVisualizer', normalToggler);
+
             shaderProgram.setVec3('color',sendingColor);
             window.onresize = onWindowResize;
             // Clear the canvas
