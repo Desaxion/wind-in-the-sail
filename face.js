@@ -41,7 +41,6 @@ class Face {
         let strideSteps = this.rearrangeDataArray()
         /*We take in: 1 vertex position (3 floats), 1 vertex normal (3 floats), 1 texcoord (2 floats).*/
         // Assuming you already have a valid WebGLRenderingContext and shaderProgram
-
         // Create a Vertex Array Object (VAO)
         this.vao = this.context.createVertexArray();
         this.context.bindVertexArray(this.vao);
@@ -51,7 +50,7 @@ class Face {
         this.context.bindBuffer(this.context.ARRAY_BUFFER, vertexBuffer);
         this.context.bufferData(this.context.ARRAY_BUFFER, this.dataStream, this.context.STATIC_DRAW);
 
-        var stride = strideSteps * Float32Array.BYTES_PER_ELEMENT;
+        var stride = strideSteps * Float32Array.BYTES_PER_ELEMENT;//strideSteps * Float32Array.BYTES_PER_ELEMENT;
 
         //Define and enable the attribute arrays
         shaderProgram.setAttribArray('aPosition');
@@ -63,11 +62,15 @@ class Face {
         let attributeLocationNormal = this.context.getAttribLocation(shaderProgram.shaderProgram, 'aNormal');
         this.context.vertexAttribPointer(attributeLocationNormal, 3, this.context.FLOAT, false, stride, 4 * Float32Array.BYTES_PER_ELEMENT);
         this.context.enableVertexAttribArray(attributeLocationNormal);
-
+   
         shaderProgram.setAttribArray('aTexCoord');
         let attributeLocationTexCoord = this.context.getAttribLocation(shaderProgram.shaderProgram, 'aTexCoord');
         this.context.vertexAttribPointer(attributeLocationTexCoord, 2, this.context.FLOAT, false, stride, 7 * Float32Array.BYTES_PER_ELEMENT);
         this.context.enableVertexAttribArray(attributeLocationTexCoord);
+        
+
+
+
 
         // Create and set up the index buffer
         if(this.vertices.length == 4){
@@ -88,7 +91,7 @@ class Face {
 
     }
 
-    draw(){
+    draw(shaderProgram){
         this.context.bindVertexArray(this.vao);
         this.context.bindBuffer(this.context.ELEMENT_ARRAY_BUFFER, this.indexBuffer);
         this.context.drawElements(this.context.TRIANGLES, this.indices.length, this.context.UNSIGNED_SHORT, 0);

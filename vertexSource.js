@@ -10,9 +10,11 @@
 
         varying vec3 vNormal;
         varying vec2 vTexCoord;
+        varying vec4 vPosition;
 
         void main(void) {
             gl_Position = cameraMatrix * aPosition;
+            vPosition = aPosition;
             vNormal = aNormal;
             vTexCoord = aTexCoord;
         }

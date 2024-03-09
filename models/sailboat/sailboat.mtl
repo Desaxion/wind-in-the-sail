@@ -24,13 +24,15 @@ map_Kd Tak.png
 newmtl m_44de43a5-4865-b288-7519-16ec8c672785
 map_Kd craneBase.png
 newmtl m_88be0469-0500-3107-7293-38ea1bf6dbc2
-map_Kd large winch.png
+map_Kd large_winch.png
 newmtl m_4cb21e51-17f1-4884-720b-cb5923b41fe9
 map_Kd WinchArm.png
 newmtl m_5018b059-fbea-3803-4a6b-4ad76bf9336a
-map_Kd small winch.png
+map_Kd small_winch.png
 newmtl m_fe0a90b0-8359-f5f9-b473-593e99a52421
-map_Kd boom connector.png
+map_Kd boom_connector.png
 newmtl m_fa417fd7-1257-f207-8bc5-f9d0d0e0d54d
 map_Kd boom.png
+newmtl m_58e8b18b-639b-0bfc-4491-d95b3530f569
+map_Kd rudder.png
 newmtl none
