@@ -1,5 +1,5 @@
 
-const waterPath = '/models/water/'
+const waterPath = 'models/water/'
 
 const waterMaterial = `# Made in Blockbench 4.9.4
 newmtl m_a477914f-e2bf-1abb-cd67-0bf8aec9f19d
@@ -1240,7 +1240,7 @@ vn -0.577 0.577 -0.577
 # Face with vertex indices, texture coordinates, and normals
 f 1/1/1 2/2/2 3/3/3
 `*/
-const sailboatPath = '/models/sailboat/'
+const sailboatPath = 'models/sailboat/'
 
 
 const sailboatMaterial = `# Made in Blockbench 4.9.4
