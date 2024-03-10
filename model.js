@@ -3,15 +3,15 @@ class Model {
     static NumberOfModels = 0;
     static NumberOfMaterials = 0;
     static NumberOfMeshes = 0;
-
-    constructor(objString,mtlString,materialPath,context){
+    static instances = [];
+    constructor(objString,mtlString,materialPath,shaderProgram,context){
         // String handling
         let meshes = objString.split('o ');
         let index = 0;
         this.meshes = [];
         //this.index = NumberOfModels;
         let materials = new Map();
-
+        this.shaderProgram = shaderProgram;
 
         
         // Do some offsetting using the lengths of each vertex and Such
@@ -103,18 +103,32 @@ class Model {
 
 
         this.context = context;
+
+        Model.instances.push(this);
     }
 
-    generateModelBuffers(shaderProgram){
-        this.meshes.forEach((mesh) => {
-            mesh.generateMeshBuffers(shaderProgram);  
+    async generateModelBuffers(shaderProgram){
+        return new Promise((resolve) => {
+            this.meshes.forEach(async (mesh) => {
+                await mesh.generateMeshBuffers(shaderProgram);  
+            })
+            resolve();
         })
     }
 
-    draw(shaderProgram){
+    draw(){
         this.meshes.forEach((mesh) =>{
-            mesh.draw(shaderProgram)
+            mesh.draw(this.shaderProgram)
         });
     }
-
+    static async generateAllModelBuffers(){
+        return new Promise((resolve) => {
+        Model.instances.forEach(async instance =>{
+            instance.shaderProgram.use();
+            await instance.generateModelBuffers(instance.shaderProgram);
+        })
+        resolve();
+    });
+    }
 }
+

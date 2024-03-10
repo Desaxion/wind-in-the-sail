@@ -24,10 +24,16 @@ class Mesh {
             count++;
         });
     }
-    generateMeshBuffers(shaderProgram){
-        this.faces.forEach((faceObject) =>{
-            faceObject.generateFaceBuffer(shaderProgram);
+    async generateMeshBuffers(shaderProgram){
+        return new Promise((resolve) =>{
+
+        this.faces.forEach(async (faceObject) =>{
+           await faceObject.generateFaceBuffer(shaderProgram);
         })
+        /*for(let i = 0; i < this.faces.length; i++){
+            this.faces[i].generateFaceBuffer(shaderProgram);
+        }*/
+        
 
 
             // Generate the textures
@@ -64,6 +70,8 @@ class Mesh {
                 this.context.generateMipmap(this.context.TEXTURE_2D);
                 //console.log(this.texture);
             })
+            resolve();
+        })
     }
 
     draw(shaderProgram){

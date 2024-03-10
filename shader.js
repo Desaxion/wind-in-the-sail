@@ -1,6 +1,8 @@
 class Shader {
+    static programs = [];
     constructor(context,vertexSource,fragmentSource){
         // Local function for shader compilation
+
         function compileShader(context,source, type) {
             let shader = context.createShader(type);
             context.shaderSource(shader, source);
@@ -29,7 +31,7 @@ class Shader {
             console.error('Unable to initialize the shader program:', this.context.getProgramInfoLog(this.shaderProgram));
             return;
         }
-
+        Shader.programs.push(this);
         return this;
     }
 

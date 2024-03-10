@@ -1,13 +1,10 @@
 
-window.onload = function () {
+window.onload = async function () {
     // Get the WebGL context
     var canvas = document.getElementById('drawing-board');
     var gl = canvas.getContext('webgl2');
 
-        // Model testing
-        let sailboat = new Model(sailboatModel,sailboatMaterial,sailboatPath,gl);
-        let water = new Model(waterModel,waterMaterial,waterPath,gl);
-        //console.log(model);
+
 
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
@@ -21,6 +18,7 @@ window.onload = function () {
     function onWindowResize() {
         canvas.width = window.innerWidth;   
         canvas.height = window.innerHeight;
+        gl.viewport(0,0,canvas.width,canvas.height);
     };
     
     if (!gl) {
@@ -30,10 +28,23 @@ window.onload = function () {
 
 
     let shaderProgram = new Shader(gl,vsSource,fsSource);
-    shaderProgram.use();
+   // shaderProgram.use();
 
-    sailboat.generateModelBuffers(shaderProgram)
-    water.generateModelBuffers(shaderProgram)
+    let waterShader = new Shader(gl,waterVs,waterFs);
+
+    // This is done asynchronously. Create maybe a callback/asynchrounus awaiting before generating new modelbuffers for the new shader.
+    //sailboat.generateModelBuffers(shaderProgram)
+
+            // Model testing
+            let sailboat = new Model(sailboatModel,sailboatMaterial,sailboatPath,shaderProgram,gl);
+            let water = new Model(waterModel,waterMaterial,waterPath,waterShader,gl);
+            //console.log(model);
+
+    console.log("waiting")
+    await Model.generateAllModelBuffers();
+    console.log("waiting done")
+    console.log(Model.instances);
+    //water.generateModelBuffers(shaderProgram)
 
     let cameraPosition = [7.549899324160266, 4.284099232217267, -4.21521220860347]//[0, 0, 2];
     let cameraOrientation = [0, 0, -1];
@@ -54,7 +65,6 @@ window.onload = function () {
     gl.viewport(0,0,canvas.width,canvas.height);
     // Function to render the frame
         var index = 0;
-        var sendingColor = vec3.create();
        
         // MAIN RENDERING LOOP //
         function render() {
@@ -64,22 +74,22 @@ window.onload = function () {
 
             var time = performance.now() * 0.001; // Get time in seconds
 
+            // Set variables to the shaders
+            shaderProgram.use()
             camera.matrix(fov,near,far,canvas.width,canvas.height,shaderProgram);
+            shaderProgram.setBool('normalVisualizer', normalToggler);
+            sailboat.draw();
 
+            waterShader.use()
+            camera.matrix(fov,near,far,canvas.width,canvas.height,waterShader);
+            waterShader.setFloat('frame', index);
+            waterShader.setBool('normalVisualizer',  normalToggler);
+            water.draw();
+     
             index++;
 
-            vec3.set(sendingColor,Math.sin(index/50),Math.cos(index/50),0.5);
-            
-            shaderProgram.setBool('normalVisualizer', normalToggler);
-
-            shaderProgram.setVec3('color',sendingColor);
             window.onresize = onWindowResize;
             // Clear the canvas
-            gl.clear(gl.COLOR_BUFFER_BIT);
-            shaderProgram.use();
-
-            sailboat.draw(shaderProgram);
-            water.draw(shaderProgram);
             // Request the next animation frame
             requestAnimationFrame(render);
         }

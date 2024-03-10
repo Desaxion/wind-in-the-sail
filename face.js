@@ -37,7 +37,8 @@ class Face {
         return stride;
     }
 
-    generateFaceBuffer(shaderProgram){
+    async generateFaceBuffer(shaderProgram){
+        return new Promise((resolve) =>{
         let strideSteps = this.rearrangeDataArray()
         /*We take in: 1 vertex position (3 floats), 1 vertex normal (3 floats), 1 texcoord (2 floats).*/
         // Assuming you already have a valid WebGLRenderingContext and shaderProgram
@@ -88,10 +89,12 @@ class Face {
         this.context.bindVertexArray(null);
         this.context.bindBuffer(this.context.ARRAY_BUFFER, null);
         this.context.bindBuffer(this.context.ELEMENT_ARRAY_BUFFER, null);
-
+        resolve();
+        })
     }
 
     draw(shaderProgram){
+        shaderProgram.use();
         this.context.bindVertexArray(this.vao);
         this.context.bindBuffer(this.context.ELEMENT_ARRAY_BUFFER, this.indexBuffer);
         this.context.drawElements(this.context.TRIANGLES, this.indices.length, this.context.UNSIGNED_SHORT, 0);
